@@ -1,29 +1,35 @@
 #include "../common.h"
 #include "test_1.h"
-#include <time.h>
+#include "../time_counter/time_counter.h"
 #include <vector>
 
 void select_k_max_val(std::vector<int>& src, int* dst, int k)
 {
-    /*
     if (!dst || k < 1) return;
     for (auto i : src)
     {
         insert_to_array(dst, k, i);
     }
-    */
-
-    for (unsigned long long ull = 0 ; ull < 1000000 ; ++ull)
-    {
-        std::cout << std::ends;
-    }
 }
 
 void test_1_1()
 {
-    std::vector<int> src_data{0, 9, 73, 2, 57, 3, 20, 4, 1, 10, 100, 9637, 28451, 1211, 2341, 7465, 8843, 6653, 2246};
-    std::vector<int> k_array{1, 2, 3, 4, 5};
+    // std::vector<int> src_data{0, 9, 73, 2, 57, 3, 20, 4, 1, 10, 100, 9637, 28451, 1211, 2341, 7465, 8843, 6653, 2246};
+    std::vector<int> src_data{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+                              12, 13, 14, 15, 16, 17, 18, 19, 20,
+                              21, 22, 23, 24, 25, 26, 27, 28, 29,
+                              30, 31, 32, 33, 34, 35, 36, 37, 38,
+                              39, 40, 41, 42, 43, 44, 45, 46, 47,
+                              48, 49, 50, 51, 52, 53, 54, 55, 56,
+                              57, 58, 59, 60, 61, 62, 63, 64, 65, 
+                              66, 67, 68, 69, 70, 71, 72, 73, 74,
+                              75, 76, 77, 78, 79, 80, 81, 82, 83,
+                              84, 85, 86, 87, 88, 89, 90, 91, 92,
+                              93, 94, 95, 96, 97, 98, 99, 100
+                              };
+    std::vector<int> k_array{1, 5, 10, 50, 100};
 
+    printf("numbers\ttime\n");
     for (auto ssz : k_array)
     {
         int* tmp = new int[ssz];
@@ -32,22 +38,24 @@ void test_1_1()
             *(tmp + i) = 0;
         }
 
-        time_t start_time;
-        time_t stop_time;
+        CTimeCounter counter;
+        unsigned long timer;
 
-        start_time = time(NULL);
+        counter.begin_time();
         select_k_max_val(src_data, tmp, ssz);
-        stop_time = time(NULL);
+        counter.end_time();
 
-        double exec_time = difftime(start_time, stop_time);
-        
-        printf("Select %d numbers, and execute time is %f.", ssz, exec_time);
-        std::cout << "Select result is : ";
+        timer = counter.get_counter();
+        printf("%d\t%ldus\n", ssz, timer);
+        // printf("Select %d numbers, and execute time is %ld us.", ssz, timer);
+        /*
+        std::cout << " Select result is : ";
         for (int i = 0 ; i < ssz ; ++i)
         {
             std::cout << *(tmp + i) << " " << std::ends;
         }
         std::cout << std::endl;
+        */
         delete [] tmp;
     }
 }
